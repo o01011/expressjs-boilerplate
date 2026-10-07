@@ -1,0 +1,5 @@
+{
+	"commit-msg": "npx --no -- commitlint --edit ${1}",
+	"pre-commit": "npm run lint:branch:check && npm run git:hook:precommit",
+	"pre-push": "npm run git:hook:prepush"
+}

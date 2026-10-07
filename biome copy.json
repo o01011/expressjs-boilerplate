@@ -1,0 +1,56 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.5.10/schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"noDuplicateClasses": "on",
+				"organizeImports": "on",
+				"useSortedAttributes": "on",
+				"useSortedInterfaceMembers": "on",
+				"useSortedKeys": "off"
+			}
+		},
+		"enabled": true
+	},
+	"files": {
+		"includes": ["**"]
+	},
+	"formatter": {
+		"attributePosition": "auto",
+		"enabled": true,
+		"formatWithErrors": false,
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineEnding": "lf",
+		"lineWidth": 150
+	},
+	"javascript": {
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"nursery": {},
+			"preset": "recommended",
+			"style": {
+				"useImportType": "off"
+			},
+			"suspicious": {
+				"noBiomeFirstException": "error",
+				"noDuplicateDependencies": "error",
+				"noDuplicateObjectKeys": "error",
+				"noQuickfixBiome": "error",
+				"useBiomeIgnoreFolder": "error",
+				"useRequiredScripts": "error"
+			}
+		}
+	},
+	"vcs": {
+		"clientKind": "git",
+		"defaultBranch": "main",
+		"enabled": true,
+		"useIgnoreFile": true
+	}
+}
