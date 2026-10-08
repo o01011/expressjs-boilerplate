@@ -37,7 +37,7 @@ COPY --from=builder /app/prisma ./prisma
 
 RUN --mount=type=cache,target=/root/.npm \
   npm install --omit=dev --ignore-scripts --no-audit --no-fund \
-  && npm install prisma --no-save --ignore-scripts --no-audit --no-fund \
+  && npm install prisma@7.10.0 --no-save --ignore-scripts --no-audit --no-fund \
   && npm cache clean --force
 
 COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist

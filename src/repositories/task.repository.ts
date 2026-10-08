@@ -1,5 +1,5 @@
 import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from "../schemas/task.schema.ts";
-import { Prisma, type Task } from "@web-monorepo/db";
+import { Prisma, type Task } from "../prisma/generated/client.ts";
 import { prisma } from "../lib/prisma.ts";
 
 export class TaskRepository {
@@ -19,7 +19,7 @@ export class TaskRepository {
 				orderBy: { [query.sortBy]: query.order },
 				skip: (query.page - 1) * query.limit,
 				take: query.limit,
-				include: { tags: true },
+				include: { tags: { include: { tag: true } } },
 			}),
 			prisma.task.count({ where }),
 		]);
@@ -30,7 +30,7 @@ export class TaskRepository {
 	async findById(id: string): Promise<Task | null> {
 		return prisma.task.findUnique({
 			where: { id },
-			include: { tags: true },
+			include: { tags: { include: { tag: true } } },
 		});
 	}
 
@@ -40,18 +40,22 @@ export class TaskRepository {
 				title: createTaskInput.title,
 				description: createTaskInput.description,
 				status: createTaskInput.status ?? "TODO",
-				prisma: createTaskInput.priority ?? "medium",
+				priority: createTaskInput.priority ?? "MEDIUM",
 				dueDate: createTaskInput.dueDate,
 				tags: createTaskInput.tags
 					? {
-							connectOrCreate: createTaskInput.tags.map((tag) => ({
-								where: { name: tag },
-								create: { name: tag },
+							create: createTaskInput.tags.map((name) => ({
+								tag: {
+									connectOrCreate: {
+										where: { name },
+										create: { name },
+									},
+								},
 							})),
 						}
 					: undefined,
 			},
-			include: { tags: true },
+			include: { tags: { include: { tag: true } } },
 		});
 	}
 
@@ -64,15 +68,19 @@ export class TaskRepository {
 					dueDate: updateTaskInput.dueDate,
 					tags: updateTaskInput.tags
 						? {
-								set: [],
-								connectOrCreate: updateTaskInput.tags.map((tag) => ({
-									where: { name: tag },
-									create: { name: tag },
+								deleteMany: {},
+								create: updateTaskInput.tags.map((name) => ({
+									tag: {
+										connectOrCreate: {
+											where: { name },
+											create: { name },
+										},
+									},
 								})),
 							}
 						: undefined,
 				},
-				include: { tags: true },
+				include: { tags: { include: { tag: true } } },
 			});
 		} catch (e) {
 			if (e instanceof Error && "code" in e && (e as { code: string }).code === "P2025") {

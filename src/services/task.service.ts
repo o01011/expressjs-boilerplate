@@ -1,4 +1,4 @@
-import type { Task } from "@web-monorepo/db";
+import type { Task } from "../prisma/generated/client.ts";
 import { TaskRepository } from "../repositories/task.repository.ts";
 import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from "../schemas/task.schema.ts";
 import { ConflictError, NotFoundError } from "../utils/errors.util.ts";

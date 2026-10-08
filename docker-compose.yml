@@ -1,12 +1,12 @@
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:latest
+  expressjs-boilerplate-postgres:
+    container_name: expressjs-boilerplate-postgres
+    image: postgres:17
     restart: always
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      - ${POSTGRES_PORT}:5432
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - expressjs-boilerplate-postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -14,36 +14,36 @@ services:
       PGUSER: ${POSTGRES_USER}
     env_file: .env
     networks:
-      - network
+      - expressjs-boilerplate-network
     healthcheck:
-      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 30s
-    hostname: postgres
+    hostname: expressjs-boilerplate-postgres
 
-  redis:
-    container_name: redis
+  expressjs-boilerplate-redis:
+    container_name: expressjs-boilerplate-redis
     image: redis:latest
     restart: unless-stopped
     ports:
       - ${REDIS_PORT}:${REDIS_PORT}
     volumes:
-      - redis-data:/data
+      - expressjs-boilerplate-redis-data:/data
     environment:
       REDIS_PORT: ${REDIS_PORT}
       REDIS_DATABASES: ${REDIS_DATABASES}
     env_file: .env
     networks:
-      - network
+      - expressjs-boilerplate-network
     healthcheck:
       test: redis-cli -a $REDIS_PASSWORD ping
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 30s
-    hostname: redis
+    hostname: expressjs-boilerplate-redis
 
   # redis-insight:
   #   container_name: redis-insight
@@ -106,18 +106,18 @@ services:
   #   hostname: kafka-ui
 
 volumes:
-  postgres-data:
-    name: postgres-data
+  expressjs-boilerplate-postgres-data:
+    name: expressjs-boilerplate-postgres-data
     driver: local
-  redis-data:
-    name: redis-data
+  expressjs-boilerplate-redis-data:
+    name: expressjs-boilerplate-redis-data
     driver: local
   # redis-insight-data:
   #   name: redis-insight-data
   #   driver: local
 
 networks:
-  network:
-    name: network
+  expressjs-boilerplate-network:
+    name: expressjs-boilerplate-network
     driver: bridge
     attachable: true

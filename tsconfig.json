@@ -7,9 +7,9 @@
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
 		"lib": ["ES2023"],
-		"module": "NodeNext",
+		"module": "preserve",
 		"moduleDetection": "force",
-		"moduleResolution": "NodeNext",
+		"moduleResolution": "bundler",
 		"noEmit": true,
 		"noFallthroughCasesInSwitch": true,
 		"noImplicitOverride": true,
@@ -22,7 +22,9 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "ES2023",
-		"types": ["node"],
+		"types": [
+   "node"
+  ],
 		"verbatimModuleSyntax": true,
 		"outDir": "./dist",
 		"rootDir": "./src",
