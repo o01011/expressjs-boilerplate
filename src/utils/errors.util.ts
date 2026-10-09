@@ -1,4 +1,4 @@
-export class AppError extends Error {
+class AppError extends Error {
 	public statusCode: number;
 	public code?: string;
 	constructor(statusCode: number, message: string, code?: string) {
@@ -16,14 +16,14 @@ export class NotFoundError extends AppError {
 	}
 }
 
-export class ValidationError extends AppError {
-	public details?: Record<string, string[]>;
-	constructor(message: string, details?: Record<string, string[]>) {
-		super(400, message, "VALIDATION_ERROR");
-		this.name = "ValidationError";
-		this.details = details;
-	}
-}
+// export class ValidationError extends AppError {
+// 	public details?: Record<string, string[]>;
+// 	constructor(message: string, details?: Record<string, string[]>) {
+// 		super(400, message, "VALIDATION_ERROR");
+// 		this.name = "ValidationError";
+// 		this.details = details;
+// 	}
+// }
 
 export class ConflictError extends AppError {
 	constructor(message: string) {

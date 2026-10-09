@@ -1,0 +1,8 @@
+ls:
+  src:
+    .dir: kebab-case
+    .ts: kebab-case
+
+ignore:
+  - src/prisma/generated
+  - src/prisma/migrations
