@@ -49,6 +49,7 @@
 		"docker:compose:start": "docker compose -f docker-compose.yml start",
 		"docker:compose:stop": "docker compose -f docker-compose.yml stop -t 10",
 		"docker:compose:up": "docker compose -f docker-compose.yml up -d --no-color --timestamps --wait --wait-timeout 60",
+		"docker:build": "docker build -f Dockerfile -t expressjs-boilerplate .",
 		"lint:check": "biome lint",
 		"lint:fix": "biome lint --write",
 		"lint:format:check": "biome format",
