@@ -1,7 +1,7 @@
 services:
   expressjs-boilerplate-postgres:
     container_name: expressjs-boilerplate-postgres
-    image: postgres:17
+    image: postgres:alpine3.23
     restart: always
     ports:
       - ${POSTGRES_PORT}:5432
@@ -25,7 +25,7 @@ services:
 
   expressjs-boilerplate-redis:
     container_name: expressjs-boilerplate-redis
-    image: redis:latest
+    image: redis:8.2-alpine3.22
     restart: unless-stopped
     ports:
       - ${REDIS_PORT}:${REDIS_PORT}
