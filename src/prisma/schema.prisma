@@ -28,7 +28,7 @@ model Task {
   dueDate     DateTime?    @map("due_date")
   createdAt   DateTime     @default(now()) @map("created_at")
   updatedAt   DateTime     @updatedAt
-  tags        TaskTag[]
+  tags        Tag[]
 
   @@index([status])
   @@index([priority])
@@ -37,20 +37,9 @@ model Task {
 }
 
 model Tag {
-  id    String    @id @default(uuid())
-  name  String    @unique @db.VarChar(50)
-  tasks TaskTag[]
+  id    String @id @default(uuid())
+  name  String @unique @db.VarChar(50)
+  tasks Task[]
 
   @@map("tags")
-}
-
-model TaskTag {
-  taskId String
-  tagId  String
-
-  task Task @relation(fields: [taskId], references: [id])
-  tag  Tag  @relation(fields: [tagId], references: [id])
-
-  @@id([taskId, tagId])
-  @@map("task_tags")
 }

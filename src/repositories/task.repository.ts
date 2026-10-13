@@ -19,7 +19,7 @@ export class TaskRepository {
 				orderBy: { [query.sortBy]: query.order },
 				skip: (query.page - 1) * query.limit,
 				take: query.limit,
-				include: { tags: { include: { tag: true } } },
+				include: { tags: true },
 			}),
 			prisma.task.count({ where }),
 		]);
@@ -30,7 +30,7 @@ export class TaskRepository {
 	async findById(id: string): Promise<Task | null> {
 		return prisma.task.findUnique({
 			where: { id },
-			include: { tags: { include: { tag: true } } },
+			include: { tags: true },
 		});
 	}
 
@@ -44,18 +44,14 @@ export class TaskRepository {
 				dueDate: createTaskInput.dueDate,
 				tags: createTaskInput.tags
 					? {
-							create: createTaskInput.tags.map((name) => ({
-								tag: {
-									connectOrCreate: {
-										where: { name },
-										create: { name },
-									},
-								},
+							connectOrCreate: createTaskInput.tags.map((tag) => ({
+								where: { name: tag },
+								create: { name: tag },
 							})),
 						}
 					: undefined,
 			},
-			include: { tags: { include: { tag: true } } },
+			include: { tags: true },
 		});
 	}
 
@@ -68,19 +64,15 @@ export class TaskRepository {
 					dueDate: updateTaskInput.dueDate,
 					tags: updateTaskInput.tags
 						? {
-								deleteMany: {},
-								create: updateTaskInput.tags.map((name) => ({
-									tag: {
-										connectOrCreate: {
-											where: { name },
-											create: { name },
-										},
-									},
+								set: [],
+								connectOrCreate: updateTaskInput.tags.map((tag) => ({
+									where: { name: tag },
+									create: { name: tag },
 								})),
 							}
 						: undefined,
 				},
-				include: { tags: { include: { tag: true } } },
+				include: { tags: true  },
 			});
 		} catch (e) {
 			if (e instanceof Error && "code" in e && (e as { code: string }).code === "P2025") {
