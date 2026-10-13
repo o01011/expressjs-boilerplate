@@ -1,7 +1,7 @@
 services:
   expressjs-boilerplate-postgres:
     container_name: expressjs-boilerplate-postgres
-    image: postgres:alpine3.23
+    image: postgres:17-alpine3.23
     restart: always
     ports:
       - ${POSTGRES_PORT}:5432
