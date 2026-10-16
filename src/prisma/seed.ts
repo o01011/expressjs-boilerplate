@@ -1,10 +1,10 @@
-import { prisma } from "../lib/prisma.ts";
+import { db } from "../db/db";
 
 const main = async () => {
-	await prisma.task.deleteMany()
-	await prisma.tag.deleteMany()
+	await db.task.deleteMany()
+	await db.tag.deleteMany()
 
-	const tags = await Promise.all(["backend", "frontend", "devops", "bug", "feature"].map((name) => prisma.tag.create({ data: { name } })))
+	const tags = await Promise.all(["backend", "frontend", "devops", "bug", "feature"].map((name) => db.tag.create({ data: { name } })))
 
 	 const tasks = [
     {
@@ -45,7 +45,7 @@ const main = async () => {
   ];
 
 	for(const task of tasks) {
-		await prisma.task.create({ data: task })
+		await db.task.create({ data: task })
 	}
 }
 
@@ -53,5 +53,5 @@ main().catch((e) => {
 	console.error("Seed failed", e)
 	process.exit(1)
 }).finally(async () => {
-	await prisma.$disconnect()
+	await db.$disconnect()
 })

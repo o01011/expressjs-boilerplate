@@ -7,7 +7,7 @@ import router from "./routes/task.route.ts";
 import { env } from "./config/config.ts";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.ts";
-import { prisma } from "./lib/prisma.ts";
+import { db } from "./db/db.ts";
 
 const app = express();
 
@@ -31,11 +31,11 @@ app.listen(env.APP_PORT, env.APP_HOST, () => {
 });
 
 process.on("SIGINT", async () => {
-	await prisma.$disconnect();
+	await db.$disconnect();
 	process.exit(0);
 });
 
 process.on("SIGTERM", async () => {
-	await prisma.$disconnect();
+	await db.$disconnect();
 	process.exit(0);
 });
