@@ -123,6 +123,6 @@ router.put("/:id", validateMiddleware(updateTaskSchema), controller.update);
  *       404:
  *         description: Task not found
  */
-router.delete("/", validateMiddleware(getTaskSchema), controller.delete);
+router.delete("/:id", validateMiddleware(getTaskSchema), controller.delete);
 
 export default router;
