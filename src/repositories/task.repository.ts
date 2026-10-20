@@ -72,7 +72,7 @@ export class TaskRepository {
 							}
 						: undefined,
 				},
-				include: { tags: true  },
+				include: { tags: true },
 			});
 		} catch (e) {
 			if (e instanceof Error && "code" in e && (e as { code: string }).code === "P2025") {
