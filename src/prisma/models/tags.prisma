@@ -1,0 +1,8 @@
+model Tag {
+  id    String  @id @default(uuid())
+  name  String  @unique @db.VarChar(50)
+  prop  String?
+  tasks Task[]
+
+  @@map("tags")
+}
