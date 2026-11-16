@@ -1,89 +1,101 @@
-# expressjs-boilerplate
+# Task Management API
 
-## Files and directories structure
+This is a RESTful API for managing tasks. It provides endpoints to create, read, update, and delete tasks. The project uses Node.js, Express, Prisma, and TypeScript.
 
-```zsh
-.
-├── biome.json
-├── branch-name-lint.config.json
-├── commitlint.config.ts
-├── docker-compose.yml
-├── Dockerfile
-├── knip.config.ts
-├── LICENSE
-├── lint-staged.config.ts
-├── package-lock.json
-├── package.json
-├── prisma.config.ts
-├── README.md
-├── src
-│   ├── app.ts
-│   ├── config
-│   │   ├── config.ts
-│   │   └── swagger.ts
-│   ├── controllers
-│   │   └── task.controller.ts
-│   ├── db
-│   │   └── db.ts
-│   ├── middlewares
-│   │   ├── error.middleware.ts
-│   │   ├── logger.middleware.ts
-│   │   ├── not-found.middleware.ts
-│   │   ├── request-id.middleware.ts
-│   │   └── validation.middleware.ts
-│   ├── prisma
-│   │   ├── generated
-│   │   │   ├── browser.ts
-│   │   │   ├── client.ts
-│   │   │   ├── commonInputTypes.ts
-│   │   │   ├── enums.ts
-│   │   │   ├── internal
-│   │   │   │   ├── class.ts
-│   │   │   │   ├── prismaNamespace.ts
-│   │   │   │   └── prismaNamespaceBrowser.ts
-│   │   │   ├── models
-│   │   │   │   ├── Tag.ts
-│   │   │   │   └── Task.ts
-│   │   │   └── models.ts
-│   │   ├── migrations
-│   │   │   ├── 20261008163234_added_task_and_tag_models
-│   │   │   │   └── migration.sql
-│   │   │   ├── 20261013232753_delete_tasktag_model
-│   │   │   │   └── migration.sql
-│   │   │   └── migration_lock.toml
-│   │   ├── models
-│   │   │   ├── tags.prisma
-│   │   │   └── tasks.prisma
-│   │   ├── schema.prisma
-│   │   └── seed.ts
-│   ├── repositories
-│   │   └── task.repository.ts
-│   ├── routes
-│   │   └── task.route.ts
-│   ├── schemas
-│   │   └── task.schema.ts
-│   ├── server.ts
-│   ├── services
-│   │   └── task.service.ts
-│   └── utils
-│       └── errors.util.ts
-├── tsconfig.build.json
-└── tsconfig.json
+## Features
+
+- **CRUD Operations**: Create, Read, Update, and Delete tasks.
+- **Task Filtering**: List tasks with filters for status, priority, and due date.
+- **Validation**: Input validation using Zod schemas.
+- **Error Handling**: Custom error handling middleware.
+- **Logging**: Request logging middleware.
+
+## Prerequisites
+
+- Node.js (v14 or higher)
+- npm
+- Docker (optional)
+
+## Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/task-management-api.git
+cd task-management-api
 ```
 
-## References
+### 2. Install Dependencies
 
-- [ ] <https://github.com/shariarSultanFahim/fullstack-turborepo-starter-kit>
-- [ ] <https://github.com/tajbinkhan/express-authentication-boilerplate>
-- [ ] <https://github.com/zoom2ashish/typescript-express-tsed-starter>
-- [ ] <https://github.com/GausAlMunirTushar/nodejs-boilerplate>
-- [ ] <https://github.com/tjuandev/node-joker>
-- [ ] <https://github.com/stressGC/ExpressJS-TypeScript-Starter-Kit>
-- [ ] <https://github.com/hagopj13/node-express-boilerplate>
-- [ ] <https://github.com/danielfsousa/express-rest-boilerplate>
-- [ ] <https://github.com/madhums/node-express-mongoose>
-- [ ] <https://github.com/maitraysuthar/rest-api-nodejs-mongodb>
-- [ ] <https://github.com/kunalkapadia/express-mongoose-es6-rest-api>
-- [x] <https://docs.webdock.io/how-guides/javascript-guides/nodejs-boilerplate-typescript-express-prisma>
-- [x] <https://www.mdfaisal.com/blog/create-express-typescript-boilerplate>
-- [ ] <https://github.com/bhavyajshah/nodejs-expressjs-boilerplate>
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Copy the `.env.example` file to `.env` and fill in the necessary values.
+
+```bash
+cp .env.example .env
+```
+
+### 4. Start the Development Server
+
+```bash
+npm run dev
+```
+
+The server will start on `http://localhost:3000`.
+
+### 5. Run Migrations
+
+To set up the database schema, run the following command:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+### 6. Seed the Database (Optional)
+
+You can seed the database with sample data using:
+
+```bash
+npm run seed
+```
+
+## API Endpoints
+
+- **Create a Task**: `POST /api/tasks`
+- **List Tasks**: `GET /api/tasks`
+- **Get a Task by ID**: `GET /api/tasks/:id`
+- **Update a Task**: `PUT /api/tasks/:id`
+- **Delete a Task**: `DELETE /api/tasks/:id`
+
+## Docker
+
+To run the application using Docker, follow these steps:
+
+### 1. Build the Docker Image
+
+```bash
+docker build -t task-management-api .
+```
+
+### 2. Run the Docker Container
+
+```bash
+docker run -p 3000:3000 task-management-api
+```
+
+## Contributing
+
+Contributions are welcome! Please follow these guidelines:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes.
+4. Push to your fork and create a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
