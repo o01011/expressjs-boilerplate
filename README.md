@@ -71,19 +71,19 @@
 └── tsconfig.json
 ```
 
-## Referenses
+## References
 
-- <https://github.com/shariarSultanFahim/fullstack-turborepo-starter-kit>
-- <https://github.com/tajbinkhan/express-authentication-boilerplate>
-- <https://github.com/zoom2ashish/typescript-express-tsed-starter>
-- <https://github.com/GausAlMunirTushar/nodejs-boilerplate>
-- <https://github.com/tjuandev/node-joker>
-- <https://github.com/stressGC/ExpressJS-TypeScript-Starter-Kit>
-- <https://github.com/hagopj13/node-express-boilerplate>
-- <https://github.com/danielfsousa/express-rest-boilerplate>
-- <https://github.com/madhums/node-express-mongoose>
-- <https://github.com/maitraysuthar/rest-api-nodejs-mongodb>
-- <https://github.com/kunalkapadia/express-mongoose-es6-rest-api>
-- <https://docs.webdock.io/how-guides/javascript-guides/nodejs-boilerplate-typescript-express-prisma/>
-- <https://www.mdfaisal.com/blog/create-express-typescript-boilerplate>
-- <https://github.com/bhavyajshah/nodejs-expressjs-boilerplate>
+- [ ] <https://github.com/shariarSultanFahim/fullstack-turborepo-starter-kit>
+- [ ] <https://github.com/tajbinkhan/express-authentication-boilerplate>
+- [ ] <https://github.com/zoom2ashish/typescript-express-tsed-starter>
+- [ ] <https://github.com/GausAlMunirTushar/nodejs-boilerplate>
+- [ ] <https://github.com/tjuandev/node-joker>
+- [ ] <https://github.com/stressGC/ExpressJS-TypeScript-Starter-Kit>
+- [ ] <https://github.com/hagopj13/node-express-boilerplate>
+- [ ] <https://github.com/danielfsousa/express-rest-boilerplate>
+- [ ] <https://github.com/madhums/node-express-mongoose>
+- [ ] <https://github.com/maitraysuthar/rest-api-nodejs-mongodb>
+- [ ] <https://github.com/kunalkapadia/express-mongoose-es6-rest-api>
+- [x] <https://docs.webdock.io/how-guides/javascript-guides/nodejs-boilerplate-typescript-express-prisma>
+- [x] <https://www.mdfaisal.com/blog/create-express-typescript-boilerplate>
+- [ ] <https://github.com/bhavyajshah/nodejs-expressjs-boilerplate>
