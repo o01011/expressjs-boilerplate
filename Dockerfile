@@ -1,4 +1,4 @@
-FROM node:22-alpine AS deps
+FROM node:24-alpine AS deps
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY package.json package-lock.json ./
 RUN --mount=type=cache,target=/root/.npm \
   npm ci --ignore-scripts --no-audit --no-fund
 
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /app
 
@@ -24,7 +24,7 @@ ENV NODE_ENV=production
 ENV APP_PORT=3000
 RUN npm run build
 
-FROM node:22-alpine AS runner
+FROM node:24-alpine AS runner
 
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 expressjs
@@ -51,7 +51,7 @@ USER expressjs
 
 EXPOSE 3000
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD wget -q -O /dev/null "http://127.0.0.1:${APP_PORT}/api/v1/health-checks" || exit 1
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD node -e "fetch('http://127.0.0.1:' + process.env.APP_PORT + '/api/v1/health-checks').then((res) => process.exit(res.ok ? 0 : 1)).catch(() => process.exit(1))"
 
 CMD ["sh", "-c", "npm run db:migrate:deploy && npm run start:prod"]
