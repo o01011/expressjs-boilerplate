@@ -45,7 +45,7 @@ Everything else in this README describes **this repository as it actually is**, 
 | Linting/formatting                    | Biome `2.5`                                                    |
 | Dead-code / file-name / branch checks | Knip, ls-lint, branch-name-lint                                |
 | Git hooks                             | `simple-git-hooks` + `lint-staged` + `commitlint`              |
-| Packaging                             | Multi-stage Dockerfile (Node 22 Alpine) + `docker-compose.yml` |
+| Packaging                             | Multi-stage Dockerfile (Node 24 Alpine) + `docker-compose.yml` |
 
 ---
 
@@ -79,11 +79,7 @@ Once running:
 - API base: `http://localhost:3000/api/v1`
 - Interactive docs: `http://localhost:3000/api/docs`
 
-To install the git hooks in a fresh clone (they are configured but not applied automatically):
-
-```bash
-npm run git:hook:init
-```
+`npm install` installs the git hooks through the `prepare` script. Run `npm run git:hook:init` if you need to write them again.
 
 ---
 
@@ -102,6 +98,7 @@ npm run git:hook:init
 | Command                     | Description                                              |
 | --------------------------- | -------------------------------------------------------- |
 | `npm run db:generate`       | Generate the Prisma client into `src/prisma/generated/`  |
+| `npm run db:validate`       | Validate the Prisma schema (`POSTGRES_URL` must be set)  |
 | `npm run db:migrate:dev`    | Create/apply a dev migration (interactive)               |
 | `npm run db:migrate:deploy` | Apply migrations in production (runs on container start) |
 | `npm run db:migrate:reset`  | Drop, re-migrate and re-seed the dev database            |
@@ -114,16 +111,15 @@ npm run git:hook:init
 
 | Command                      | Description                                              |
 | ---------------------------- | -------------------------------------------------------- |
-| `npm run lint:check`         | Biome lint                                               |
-| `npm run lint:fix`           | Biome lint + safe fixes                                  |
-| `npm run lint:format:check`  | Biome format check                                       |
-| `npm run lint:format:fix`    | Biome format (write)                                     |
-| `npm run lint:types:check`   | `tsc --noEmit`                                           |
+| `npm run check`             | File names, Biome, types, Knip, Prisma schema, then build |
+| `npm run lint:check`         | Biome lint and format check                              |
+| `npm run lint:fix`           | Biome lint and format, writing safe fixes                |
+| `npm run lint:types:check`   | `tsc --noEmit` for `src/` and root TypeScript configs    |
 | `npm run lint:clean:check`   | Knip — unused files/exports/dependencies                 |
 | `npm run lint:fs:check`      | ls-lint — kebab-case file and directory names            |
 | `npm run lint:branch:check`  | branch-name-lint — enforce `feat/...`, `fix/...`, ...    |
 | `npm run git:hook:init`      | Install `simple-git-hooks` from `.simple-git-hooks.json` |
-| `npm run git:hook:precommit` | Run lint-staged (invoked by the pre-commit hook)         |
+| `npm run git:hook:precommit` | Branch check, then Biome on staged files                 |
 
 ### Docker
 
@@ -133,11 +129,11 @@ npm run git:hook:init
 | `npm run docker:compose:up`    | Start Postgres + Redis detached, waits for health |
 | `npm run docker:compose:start` | Start existing containers                         |
 | `npm run docker:compose:stop`  | Stop containers (10s grace)                       |
-| `npm run docker:compose:down`  | Stop and remove containers + volumes              |
+| `npm run docker:compose:down`  | Stop and remove containers                        |
+| `npm run docker:compose:reset` | Stop and remove containers and named volumes      |
 
 The image entrypoint runs `npm run db:migrate:deploy && npm run start:prod`. Its
-`HEALTHCHECK` probes `/api/v1/health-checks` — **that route does not exist in the code yet**, so the
-container will report unhealthy until a health-check endpoint is added.
+`HEALTHCHECK` probes `GET /api/v1/health-checks`.
 
 ---
 
@@ -199,12 +195,14 @@ or malformed — no silent defaults for credentials.
 ├── prisma.config.ts            # Prisma 7 config (schema dir, migrations, seed)
 ├── tsconfig.json               # Strict base config
 ├── tsconfig.build.json         # Emit config
+├── tsconfig.tools.json         # Typecheck src plus root configs
 ├── biome.json                  # Lint + format
 ├── knip.config.ts              # Dead code detection
 ├── lint-staged.config.ts       # Pre-commit tasks
 ├── commitlint.config.ts        # Conventional commit rules
 ├── branch-name-lint.config.json
-└── .simple-git-hooks.json
+├── .simple-git-hooks.json
+└── .github/workflows/check.yml # CI: generate client, npm run check, PR commit/branch lint
 ```
 
 ### Request lifecycle
@@ -231,6 +229,12 @@ app can be imported and exercised in tests without binding a port.
 ## API
 
 Base URL: `/api/v1`
+
+### Health
+
+| Method | Endpoint         | Description                          |
+| ------ | ---------------- | ------------------------------------ |
+| `GET`  | `/health-checks` | Liveness probe. Returns `{ "data": { "status": "ok" } }` |
 
 ### Tasks
 
@@ -353,13 +357,17 @@ Not included: `helmet`, CORS and rate-limit middleware are **not yet mounted** �
 - **Explicit `.ts` extensions** in imports (`allowImportingTsExtensions` +
   `rewriteRelativeImportExtensions`) so the same source runs under `tsx` and under `tsc` emit.
 - **Kebab-case** files and folders, enforced by ls-lint (Prisma generated/migrations exempt).
-- **Conventional commits**, enforced by commitlint: types `chore`, `ci/cd`, `docs`, `feat`, `fix`,
-  `refactor`, `test`; scope `root`; subject and header lowercase.
-- **Git-flow branches**, enforced by branch-name-lint (`feat/…`, `fix/…`, `chore/…`, …; `main`,
-  `master`, `develop`, `staging` disallowed as working branches).
-- **Hooks** (`.simple-git-hooks.json`): pre-commit runs branch check + lint-staged (Knip, ls-lint),
-  commit-msg runs commitlint, pre-push runs the build.
-- **Knip** reports unused files, exports and dependencies in every pre-commit.
+- **Conventional commits**, enforced by commitlint: types `build`, `chore`, `ci`, `docs`, `feat`,
+  `fix`, `perf`, `refactor`, `revert`, `test`. Scope is required and one of `api`, `config`, `db`,
+  `deps`, `docker`, `scripts`. Subject and header are lowercase. A body is allowed.
+- **Git-flow branches**, enforced by branch-name-lint (`feat/…`, `fix/…`, `chore/…`, `ci/…`, …).
+  `main` is skipped so the default branch can be committed. `master`, `develop`, and `staging`
+  are rejected.
+- **Hooks** (`.simple-git-hooks.json`, installed by `prepare`): pre-commit runs the branch check
+  and Biome on staged files, commit-msg runs commitlint, pre-push runs `npm run check`.
+- **CI** (`.github/workflows/check.yml`) runs Prisma generate and `npm run check` on pull requests
+  and on `main`. Pull requests also run branch-name-lint and commitlint. `npm run check` does not
+  include the branch check, because that job also runs on `main`.
 
 ---
 
@@ -406,10 +414,9 @@ File names must stay kebab-case (ls-lint).
 ## Scripts you will actually run
 
 ```bash
-npm run start:dev        # day-to-day development
-npm run lint:types:check # before pushing
-npm run lint:fix && npm run lint:format:fix
-npm run build            # pre-push hook does this for you
+npm run start:dev  # day-to-day development
+npm run lint:fix   # format and lint the working tree
+npm run check      # the same gates the pre-push hook runs
 ```
 
 ---

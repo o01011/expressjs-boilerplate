@@ -7,6 +7,7 @@ import { errorMiddleware } from "./middlewares/error.middleware.ts";
 import { loggerMiddleware } from "./middlewares/logger.middleware.ts";
 import { notFoundHandlerMiddleware } from "./middlewares/not-found.middleware.ts";
 import { requestIdMiddleware } from "./middlewares/request-id.middleware.ts";
+import healthCheckRouter from "./routes/health-check.route.ts";
 import router from "./routes/task.route.ts";
 
 const app = express();
@@ -55,6 +56,7 @@ const openApiSpec = openApiGenerator.generateDocument({
 });
 
 app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(openApiSpec));
+app.use("/api/v1/health-checks", healthCheckRouter);
 app.use("/api/v1/tasks", router);
 
 app.use(notFoundHandlerMiddleware);

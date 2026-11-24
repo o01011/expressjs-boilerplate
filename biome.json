@@ -43,7 +43,12 @@
 				"noDuplicateObjectKeys": "error",
 				"noQuickfixBiome": "error",
 				"useBiomeIgnoreFolder": "error",
-				"useRequiredScripts": "error"
+				"useRequiredScripts": {
+					"level": "error",
+					"options": {
+						"requiredScripts": ["build", "git:hook:precommit", "git:hook:prepush", "lint:check", "lint:types:check", "start:dev"]
+					}
+				}
 			}
 		}
 	},
