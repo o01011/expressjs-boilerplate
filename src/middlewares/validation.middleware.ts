@@ -2,13 +2,14 @@ import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { ZodError, type ZodType } from "zod";
 
-export const validateMiddleware = (schema: ZodType) => {
+export const validationMiddleware = (schema: ZodType) => {
 	return (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const validated = schema.parse({
 				body: req.body,
-				query: req.query,
 				params: req.params,
+				query: req.query,
+				cookies: req.cookies,
 			});
 
 			const locals = res.locals as typeof res.locals & { validated: unknown };

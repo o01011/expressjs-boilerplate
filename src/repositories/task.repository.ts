@@ -1,6 +1,6 @@
-import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from "../schemas/task.schema.ts";
-import { Prisma, type Task } from "../prisma/generated/client.ts";
 import { db } from "../db/db.ts";
+import { Prisma, type Task } from "../prisma/generated/client.ts";
+import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from "../schemas/task.schema.ts";
 
 export class TaskRepository {
 	async findMany(query: ListTasksQuery): Promise<{ tasks: Task[]; total: number }> {

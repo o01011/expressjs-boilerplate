@@ -7,7 +7,7 @@ export const errorMiddleware = (
 	_next: NextFunction,
 ) => {
 	const statusCode = err.statusCode ?? 500;
-	const code = err.code ?? "INTERNAL_ERROR";
+	const code = err.code ?? "INTERNAL_SERVER_ERROR";
 	const message = statusCode === 500 ? "Internal server error" : err.message;
 	const requestId = req.headers["x-request-id"] as string | undefined;
 

@@ -1,7 +1,10 @@
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../prisma/generated/client.ts";
+import { Pool } from "pg";
 import { env } from "../config/config.ts";
+import { PrismaClient } from "../prisma/generated/client.ts";
 
-const adapter = new PrismaPg({ connectionString: env.POSTGRES_URL });
+const connectionString = env.POSTGRES_URL;
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
 
 export const db = new PrismaClient({ adapter });
