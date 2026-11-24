@@ -1,16 +1,17 @@
 import type { Task } from "../prisma/generated/client.ts";
 import { TaskRepository } from "../repositories/task.repository.ts";
 import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from "../schemas/task.schema.ts";
+import type { PageType } from "../types/page.type.ts";
 import { ConflictError, NotFoundError } from "../utils/errors.util.ts";
 
 export class TaskService {
 	private readonly taskRepository = new TaskRepository();
 
-	async list(query: ListTasksQuery): Promise<{ tasks: Task[]; total: number; page: number; limit: number }> {
+	async list(query: ListTasksQuery): Promise<PageType<Task>> {
 		const { tasks, total } = await this.taskRepository.findMany(query);
 
 		return {
-			tasks,
+			items: tasks,
 			total,
 			page: query.page,
 			limit: query.limit,

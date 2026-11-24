@@ -2,18 +2,33 @@ import app from "./app.ts";
 import { env } from "./config/config.ts";
 import { db } from "./db/db.ts";
 
-app.listen(env.APP_PORT, env.APP_HOST, () => {
+const server = app.listen(env.APP_PORT, env.APP_HOST, () => {
 	console.log(`Server running at http://${env.APP_HOST}:${env.APP_PORT}`);
 	console.log(`Environment: ${env.NODE_ENV}`);
 	console.log(`API docs: http://${env.APP_HOST}:${env.APP_PORT}/api/docs`);
 });
 
-process.on("SIGINT", async () => {
-	await db.$disconnect();
-	process.exit(0);
+server.on("error", (error) => {
+	console.error("HTTP server failed", error);
+	process.exit(1);
 });
 
-process.on("SIGTERM", async () => {
+const shutdown = async (signal: NodeJS.Signals) => {
+	console.log(`${signal} received, shutting down`);
+	setTimeout(() => process.exit(1), 10_000).unref();
+
+	await new Promise<void>((resolve) => {
+		server.close(() => resolve());
+	});
 	await db.$disconnect();
 	process.exit(0);
-});
+};
+
+for (const signal of ["SIGINT", "SIGTERM"] as const) {
+	process.once(signal, () => {
+		shutdown(signal).catch((error: unknown) => {
+			console.error("Shutdown failed", error);
+			process.exit(1);
+		});
+	});
+}

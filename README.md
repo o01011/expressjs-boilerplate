@@ -13,20 +13,20 @@ PostgreSQL, OpenAPI docs, and an aggressive set of quality gates that run before
 
 There are dozens of Express boilerplates, and each one gets a few things right:
 
-| Reference project | What it does well | Borrowed here |
-|---|---|---|
-| [`hagopj13/node-express-boilerplate`](https://github.com/hagopj13/node-express-boilerplate) | Layered structure, pagination, centralized errors, API docs | Controller / service / repository split, Swagger, pagination shape |
-| [`danielfsousa/express-rest-boilerplate`](https://github.com/danielfsousa/express-rest-boilerplate) | REST conventions, Docker, gzip, lint/test/coverage separation | Script naming (`lint:*`, `db:*`), Docker multi-stage build |
-| [`tajbinkhan/express-authentication-boilerplate`](https://github.com/tajbinkhan/express-authentication-boilerplate) | Env var schema, secure cookies, rate limiting, RBAC readiness | Zod-validated `env`, security var groupings in `.env.example` |
-| [`tjuandev/node-joker`](https://github.com/tjuandev/node-joker) | Colocated code, modern tooling, testing-first | Colocated schemas per resource, Vitest-ready `tests/` dir, Biome |
-| [`bhavyajshah/nodejs-expressjs-boilerplate`](https://github.com/bhavyajshah/nodejs-expressjs-boilerplate) | Health checks, request IDs, structured error codes | Request-id + JSON error envelope, health-check contract |
-| [`shariarSultanFahim/fullstack-turborepo-starter-kit`](https://github.com/shariarSultanFahim/fullstack-turborepo-starter-kit) | OpenAPI generated from schemas, strict TypeScript | Swagger served from route annotations, strict `tsconfig` |
-| [`GausAlMunirTushar/nodejs-boilerplate`](https://github.com/GausAlMunirTushar/nodejs-boilerplate) | Husky-style hooks, commitlint, issue templates | Git hooks + conventional commits + branch lint |
-| [`stressGC/ExpressJS-TypeScript-Starter-Kit`](https://github.com/stressGC/ExpressJS-TypeScript-Starter-Kit) | Express + TypeScript minimalism, winston/morgan | Logging middleware, `src/` layout |
-| [`madhums/node-express-mongoose`](https://github.com/madhums/node-express-mongoose), [`maitraysuthar/rest-api-nodejs-mongodb`](https://github.com/maitraysuthar/rest-api-nodejs-mongodb), [`kunalkapadia/express-mongoose-es6-rest-api`](https://github.com/kunalkapadia/express-mongoose-es6-rest-api) | Classic Express + MongoDB API shapes, JWT auth | Resource CRUD shape, JWT/throttle env slots reserved |
-| [`zoom2ashish/typescript-express-tsed-starter`](https://github.com/zoom2ashish/typescript-express-tsed-starter) | Decorator-based routing as an alternative | — (kept as an optional pattern, not adopted) |
-| [Webdock — Node.js boilerplate TS/Express/Prisma](https://docs.webdock.io/how-guides/javascript-guides/nodejs-boilerplate-typescript-express-prisma/) | `app.ts` / `server.ts` separation, Prisma setup, validation helper | Exact `app.ts` + `server.ts` split |
-| [`mdfaisal.com`](https://www.mdfaisal.com/blog/create-express-typescript-boilerplate) | Bare-minimum Express + TS + body parser walkthrough | Middleware bootstrap order |
+| Reference project                                                                                                                                                                                                                                                                                       | What it does well                                                  | Borrowed here                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| [`hagopj13/node-express-boilerplate`](https://github.com/hagopj13/node-express-boilerplate)                                                                                                                                                                                                             | Layered structure, pagination, centralized errors, API docs        | Controller / service / repository split, Swagger, pagination shape |
+| [`danielfsousa/express-rest-boilerplate`](https://github.com/danielfsousa/express-rest-boilerplate)                                                                                                                                                                                                     | REST conventions, Docker, gzip, lint/test/coverage separation      | Script naming (`lint:*`, `db:*`), Docker multi-stage build         |
+| [`tajbinkhan/express-authentication-boilerplate`](https://github.com/tajbinkhan/express-authentication-boilerplate)                                                                                                                                                                                     | Env var schema, secure cookies, rate limiting, RBAC readiness      | Zod-validated `env`, security var groupings in `.env.example`      |
+| [`tjuandev/node-joker`](https://github.com/tjuandev/node-joker)                                                                                                                                                                                                                                         | Colocated code, modern tooling, testing-first                      | Colocated schemas per resource, Vitest-ready `tests/` dir, Biome   |
+| [`bhavyajshah/nodejs-expressjs-boilerplate`](https://github.com/bhavyajshah/nodejs-expressjs-boilerplate)                                                                                                                                                                                               | Health checks, request IDs, structured error codes                 | Request-id + JSON error envelope, health-check contract            |
+| [`shariarSultanFahim/fullstack-turborepo-starter-kit`](https://github.com/shariarSultanFahim/fullstack-turborepo-starter-kit)                                                                                                                                                                           | OpenAPI generated from schemas, strict TypeScript                  | Swagger served from route annotations, strict `tsconfig`           |
+| [`GausAlMunirTushar/nodejs-boilerplate`](https://github.com/GausAlMunirTushar/nodejs-boilerplate)                                                                                                                                                                                                       | Husky-style hooks, commitlint, issue templates                     | Git hooks + conventional commits + branch lint                     |
+| [`stressGC/ExpressJS-TypeScript-Starter-Kit`](https://github.com/stressGC/ExpressJS-TypeScript-Starter-Kit)                                                                                                                                                                                             | Express + TypeScript minimalism, winston/morgan                    | Logging middleware, `src/` layout                                  |
+| [`madhums/node-express-mongoose`](https://github.com/madhums/node-express-mongoose), [`maitraysuthar/rest-api-nodejs-mongodb`](https://github.com/maitraysuthar/rest-api-nodejs-mongodb), [`kunalkapadia/express-mongoose-es6-rest-api`](https://github.com/kunalkapadia/express-mongoose-es6-rest-api) | Classic Express + MongoDB API shapes, JWT auth                     | Resource CRUD shape, JWT/throttle env slots reserved               |
+| [`zoom2ashish/typescript-express-tsed-starter`](https://github.com/zoom2ashish/typescript-express-tsed-starter)                                                                                                                                                                                         | Decorator-based routing as an alternative                          | — (kept as an optional pattern, not adopted)                       |
+| [Webdock — Node.js boilerplate TS/Express/Prisma](https://docs.webdock.io/how-guides/javascript-guides/nodejs-boilerplate-typescript-express-prisma/)                                                                                                                                                   | `app.ts` / `server.ts` separation, Prisma setup, validation helper | Exact `app.ts` + `server.ts` split                                 |
+| [`mdfaisal.com`](https://www.mdfaisal.com/blog/create-express-typescript-boilerplate)                                                                                                                                                                                                                   | Bare-minimum Express + TS + body parser walkthrough                | Middleware bootstrap order                                         |
 
 Everything else in this README describes **this repository as it actually is**, not the roadmap.
 
@@ -34,18 +34,18 @@ Everything else in this README describes **this repository as it actually is**, 
 
 ## Tech stack
 
-| Concern | Choice |
-|---|---|
-| Runtime | Node.js `v24.21.0` (`.nvmrc`), ESM (`"type": "module"`) |
-| Framework | Express.js `^5.2.1` |
-| Language | TypeScript `^7`, strict + `erasableSyntaxOnly` |
-| Database | PostgreSQL via Prisma `7.10` with `@prisma/adapter-pg` |
-| Validation | Zod `^4` (env, request body/query/params) |
-| Documentation | OpenAPI 3.0 via `swagger-jsdoc` + `swagger-ui-express` |
-| Linting/formatting | Biome `2.5` |
-| Dead-code / file-name / branch checks | Knip, ls-lint, branch-name-lint |
-| Git hooks | `simple-git-hooks` + `lint-staged` + `commitlint` |
-| Packaging | Multi-stage Dockerfile (Node 22 Alpine) + `docker-compose.yml` |
+| Concern                               | Choice                                                         |
+| ------------------------------------- | -------------------------------------------------------------- |
+| Runtime                               | Node.js `v24.21.0` (`.nvmrc`), ESM (`"type": "module"`)        |
+| Framework                             | Express.js `^5.2.1`                                            |
+| Language                              | TypeScript `^7`, strict + `erasableSyntaxOnly`                 |
+| Database                              | PostgreSQL via Prisma `7.10` with `@prisma/adapter-pg`         |
+| Validation                            | Zod `^4` (env, request body/query/params)                      |
+| Documentation                         | OpenAPI 3.0 via `swagger-jsdoc` + `swagger-ui-express`         |
+| Linting/formatting                    | Biome `2.5`                                                    |
+| Dead-code / file-name / branch checks | Knip, ls-lint, branch-name-lint                                |
+| Git hooks                             | `simple-git-hooks` + `lint-staged` + `commitlint`              |
+| Packaging                             | Multi-stage Dockerfile (Node 22 Alpine) + `docker-compose.yml` |
 
 ---
 
@@ -91,49 +91,49 @@ npm run git:hook:init
 
 ### Development
 
-| Command | Description |
-|---|---|
-| `npm run start:dev` | Run the server with `tsx watch` (hot reload) |
-| `npm run start:prod` | Run the compiled server from `dist/` |
-| `npm run build` | Type-check + emit to `dist/` (`tsc -p tsconfig.build.json`) |
+| Command              | Description                                                 |
+| -------------------- | ----------------------------------------------------------- |
+| `npm run start:dev`  | Run the server with `tsx watch` (hot reload)                |
+| `npm run start:prod` | Run the compiled server from `dist/`                        |
+| `npm run build`      | Type-check + emit to `dist/` (`tsc -p tsconfig.build.json`) |
 
 ### Database
 
-| Command | Description |
-|---|---|
-| `npm run db:generate` | Generate the Prisma client into `src/prisma/generated/` |
-| `npm run db:migrate:dev` | Create/apply a dev migration (interactive) |
+| Command                     | Description                                              |
+| --------------------------- | -------------------------------------------------------- |
+| `npm run db:generate`       | Generate the Prisma client into `src/prisma/generated/`  |
+| `npm run db:migrate:dev`    | Create/apply a dev migration (interactive)               |
 | `npm run db:migrate:deploy` | Apply migrations in production (runs on container start) |
-| `npm run db:migrate:reset` | Drop, re-migrate and re-seed the dev database |
-| `npm run db:push` | Push the schema without creating a migration file |
-| `npm run db:pull` | Introspect the database into the schema |
-| `npm run db:seed` | Run `src/prisma/seed.ts` (Faker-powered) |
-| `npm run db:studio` | Open Prisma Studio |
+| `npm run db:migrate:reset`  | Drop, re-migrate and re-seed the dev database            |
+| `npm run db:push`           | Push the schema without creating a migration file        |
+| `npm run db:pull`           | Introspect the database into the schema                  |
+| `npm run db:seed`           | Run `src/prisma/seed.ts` (Faker-powered)                 |
+| `npm run db:studio`         | Open Prisma Studio                                       |
 
 ### Quality gates
 
-| Command | Description |
-|---|---|
-| `npm run lint:check` | Biome lint |
-| `npm run lint:fix` | Biome lint + safe fixes |
-| `npm run lint:format:check` | Biome format check |
-| `npm run lint:format:fix` | Biome format (write) |
-| `npm run lint:types:check` | `tsc --noEmit` |
-| `npm run lint:clean:check` | Knip — unused files/exports/dependencies |
-| `npm run lint:fs:check` | ls-lint — kebab-case file and directory names |
-| `npm run lint:branch:check` | branch-name-lint — enforce `feat/...`, `fix/...`, ... |
-| `npm run git:hook:init` | Install `simple-git-hooks` from `.simple-git-hooks.json` |
-| `npm run git:hook:precommit` | Run lint-staged (invoked by the pre-commit hook) |
+| Command                      | Description                                              |
+| ---------------------------- | -------------------------------------------------------- |
+| `npm run lint:check`         | Biome lint                                               |
+| `npm run lint:fix`           | Biome lint + safe fixes                                  |
+| `npm run lint:format:check`  | Biome format check                                       |
+| `npm run lint:format:fix`    | Biome format (write)                                     |
+| `npm run lint:types:check`   | `tsc --noEmit`                                           |
+| `npm run lint:clean:check`   | Knip — unused files/exports/dependencies                 |
+| `npm run lint:fs:check`      | ls-lint — kebab-case file and directory names            |
+| `npm run lint:branch:check`  | branch-name-lint — enforce `feat/...`, `fix/...`, ...    |
+| `npm run git:hook:init`      | Install `simple-git-hooks` from `.simple-git-hooks.json` |
+| `npm run git:hook:precommit` | Run lint-staged (invoked by the pre-commit hook)         |
 
 ### Docker
 
-| Command | Description |
-|---|---|
-| `npm run docker:build` | Build the image (`expressjs-boilerplate`) |
-| `npm run docker:compose:up` | Start Postgres + Redis detached, waits for health |
-| `npm run docker:compose:start` | Start existing containers |
-| `npm run docker:compose:stop` | Stop containers (10s grace) |
-| `npm run docker:compose:down` | Stop and remove containers + volumes |
+| Command                        | Description                                       |
+| ------------------------------ | ------------------------------------------------- |
+| `npm run docker:build`         | Build the image (`expressjs-boilerplate`)         |
+| `npm run docker:compose:up`    | Start Postgres + Redis detached, waits for health |
+| `npm run docker:compose:start` | Start existing containers                         |
+| `npm run docker:compose:stop`  | Stop containers (10s grace)                       |
+| `npm run docker:compose:down`  | Stop and remove containers + volumes              |
 
 The image entrypoint runs `npm run db:migrate:deploy && npm run start:prod`. Its
 `HEALTHCHECK` probes `/api/v1/health-checks` — **that route does not exist in the code yet**, so the
@@ -147,16 +147,16 @@ container will report unhealthy until a health-check endpoint is added.
 parses it with Zod at boot and **exits with a field-level error report** if anything is missing
 or malformed — no silent defaults for credentials.
 
-| Group | Variables |
-|---|---|
-| App | `NODE_ENV`, `APP_PORT`, `APP_HOST`, `APP_REQUEST_TIMEOUT`, `APP_NAME`, `APP_DESCRIPTION`, `APP_LOG_LEVEL` |
-| Postgres | `POSTGRES_URL`, `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` |
-| Redis | `REDIS_URL`, `REDIS_PORT`, `REDIS_HOST`, `REDIS_DATABASES`, `REDIS_PASSWORD` |
-| Redis Insight | `RI_PORT`, `RI_DISABLE_ENCRYPTION` |
+| Group                                   | Variables                                                                                                                                                                                                                                                                                             |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| App                                     | `NODE_ENV`, `APP_PORT`, `APP_HOST`, `APP_REQUEST_TIMEOUT`, `APP_NAME`, `APP_DESCRIPTION`, `APP_LOG_LEVEL`                                                                                                                                                                                             |
+| Postgres                                | `POSTGRES_URL`, `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`                                                                                                                                                                                                 |
+| Redis                                   | `REDIS_URL`, `REDIS_PORT`, `REDIS_HOST`, `REDIS_DATABASES`, `REDIS_PASSWORD`                                                                                                                                                                                                                          |
+| Redis Insight                           | `RI_PORT`, `RI_DISABLE_ENCRYPTION`                                                                                                                                                                                                                                                                    |
 | Kafka (optional, compose commented out) | `KAFKA_NODE_ID`, `KAFKA_PORT`, `KAFKA_CONTROLLER_PORT`, `KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR`, `KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR`, `KAFKA_TRANSACTION_STATE_LOG_MIN_ISR`, `KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS`, `KAFKA_NUM_PARTITIONS`, `KAFKA_UI_PORT`, `KAFKA_CLUSTERS_0_NAME` |
-| Auth | `JWT_SECRET`, `JWT_EXPIRES_IN` |
-| Throttling | `THROTTLE_TTL`, `THROTTLE_LIMIT` |
-| AWS / S3 | `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET_NAME` |
+| Auth                                    | `JWT_SECRET`, `JWT_EXPIRES_IN`                                                                                                                                                                                                                                                                        |
+| Throttling                              | `THROTTLE_TTL`, `THROTTLE_LIMIT`                                                                                                                                                                                                                                                                      |
+| AWS / S3                                | `AWS_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_BUCKET_NAME`                                                                                                                                                                                                                      |
 
 `.env`, `.env.prod` and all `*.local` variants are gitignored.
 
@@ -234,13 +234,13 @@ Base URL: `/api/v1`
 
 ### Tasks
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/tasks` | List tasks. Query: `status`, `priority`, `page`, `limit` (≤100), `sortBy` (`createdAt` \| `title` \| `priority` \| `dueDate`), `order` (`asc` \| `desc`) |
-| `GET` | `/tasks/:id` | Get a task by UUID |
-| `POST` | `/tasks` | Create a task (unique title) |
-| `PUT` | `/tasks/:id` | Update a task |
-| `DELETE` | `/tasks/:id` | Delete a task (returns `204`) |
+| Method   | Endpoint     | Description                                                                                                                                              |
+| -------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET`    | `/tasks`     | List tasks. Query: `status`, `priority`, `page`, `limit` (≤100), `sortBy` (`createdAt` \| `title` \| `priority` \| `dueDate`), `order` (`asc` \| `desc`) |
+| `GET`    | `/tasks/:id` | Get a task by UUID                                                                                                                                       |
+| `POST`   | `/tasks`     | Create a task (unique title)                                                                                                                             |
+| `PUT`    | `/tasks/:id` | Update a task                                                                                                                                            |
+| `DELETE` | `/tasks/:id` | Delete a task (returns `204`)                                                                                                                            |
 
 #### Create a task
 
@@ -264,7 +264,15 @@ Content-Type: application/json
 
 ```json
 {
-  "data": [ { "id": "…", "title": "…", "status": "TODO", "priority": "MEDIUM", "tags": [{ "id": "…", "name": "backend" }] } ],
+  "data": [
+    {
+      "id": "…",
+      "title": "…",
+      "status": "TODO",
+      "priority": "MEDIUM",
+      "tags": [{ "id": "…", "name": "backend" }]
+    }
+  ],
   "pagination": { "page": 1, "limit": 20, "total": 50, "totalPages": 3 }
 }
 ```
@@ -288,19 +296,21 @@ All errors funnel through one middleware and share one envelope:
   "error": {
     "code": "VALIDATION_ERROR",
     "message": "Validation failed",
-    "detals": { "body.title": ["Too small: expected string to have >=1 characters"] },
+    "detals": {
+      "body.title": ["Too small: expected string to have >=1 characters"]
+    },
     "requestId": "b6c8…"
   }
 }
 ```
 
-| Situation | Status | `code` |
-|---|---|---|
-| Zod validation failure | `400` | `VALIDATION_ERROR` (with per-field `detals`) |
-| Route not matched | `404` | `NOT_FOUND` |
-| Resource missing | `404` | `NOT_FOUND` |
-| Duplicate title | `400` | `CONFLICT` |
-| Anything unhandled | `500` | `INTERNAL_ERROR` (message masked, stack logged server-side) |
+| Situation              | Status | `code`                                                      |
+| ---------------------- | ------ | ----------------------------------------------------------- |
+| Zod validation failure | `400`  | `VALIDATION_ERROR` (with per-field `detals`)                |
+| Route not matched      | `404`  | `NOT_FOUND`                                                 |
+| Resource missing       | `404`  | `NOT_FOUND`                                                 |
+| Duplicate title        | `400`  | `CONFLICT`                                                  |
+| Anything unhandled     | `500`  | `INTERNAL_ERROR` (message masked, stack logged server-side) |
 
 > **Note:** the details key is intentionally spelled `detals` in the current implementation
 > (`src/middlewares/error.middleware.ts`). It is documented here as-is; renaming it is a breaking
@@ -420,6 +430,21 @@ npm run build            # pre-push hook does this for you
 - <https://docs.webdock.io/how-guides/javascript-guides/nodejs-boilerplate-typescript-express-prisma/>
 - <https://www.mdfaisal.com/blog/create-express-typescript-boilerplate>
 - <https://github.com/bhavyajshah/nodejs-expressjs-boilerplate>
+
+https://github.com/shariarSultanFahim/fullstack-turborepo-starter-kit
+https://github.com/tajbinkhan/express-authentication-boilerplate
+https://github.com/zoom2ashish/typescript-express-tsed-starter
+https://github.com/GausAlMunirTushar/nodejs-boilerplate
+https://github.com/tjuandev/node-joker
+https://github.com/stressGC/ExpressJS-TypeScript-Starter-Kit
+https://github.com/hagopj13/node-express-boilerplate
+https://github.com/danielfsousa/express-rest-boilerplate
+https://github.com/madhums/node-express-mongoose
+https://github.com/maitraysuthar/rest-api-nodejs-mongodb
+https://github.com/kunalkapadia/express-mongoose-es6-rest-api
+https://docs.webdock.io/how-guides/javascript-guides/nodejs-boilerplate-typescript-express-prisma
+https://www.mdfaisal.com/blog/create-express-typescript-boilerplate
+https://github.com/bhavyajshah/nodejs-expressjs-boilerplate
 
 ---
 

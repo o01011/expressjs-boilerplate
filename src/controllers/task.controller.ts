@@ -11,7 +11,7 @@ export class TaskController {
 			const { query } = getValidatedData<{ query: ListTasksQuery }>(res);
 			const result = await this.taskService.list(query);
 			res.json({
-				data: result.tasks,
+				data: result.items,
 				pagination: {
 					page: result.page,
 					limit: result.limit,
