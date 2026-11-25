@@ -64,7 +64,7 @@ const tagSchema = z
 	})
 	.openapi("Tag");
 
-export const taskSchema = z
+const taskSchema = z
 	.object({
 		id: z.uuid(),
 		title: z.string(),
