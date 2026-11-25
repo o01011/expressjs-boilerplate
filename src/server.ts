@@ -5,7 +5,7 @@ import { db } from "./db/db.ts";
 const server = app.listen(env.APP_PORT, env.APP_HOST, () => {
 	console.log(`Server running at http://${env.APP_HOST}:${env.APP_PORT}`);
 	console.log(`Environment: ${env.NODE_ENV}`);
-	console.log(`API docs: http://${env.APP_HOST}:${env.APP_PORT}/api/docs`);
+	console.log(`API docs: http://${env.APP_HOST}:${env.APP_PORT}/api/v1/docs`);
 });
 
 server.on("error", (error) => {

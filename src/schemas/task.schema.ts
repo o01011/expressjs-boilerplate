@@ -56,6 +56,59 @@ export const listTasksSchema = z
 	})
 	.openapi({ description: "List Tasks Schema" });
 
+const tagSchema = z
+	.object({
+		id: z.uuid(),
+		name: z.string(),
+		prop: z.string().nullable(),
+	})
+	.openapi("Tag");
+
+export const taskSchema = z
+	.object({
+		id: z.uuid(),
+		title: z.string(),
+		description: z.string().nullable(),
+		status: taskStatusEnum,
+		priority: taskPriorityEum,
+		dueDate: z.iso.datetime().nullable(),
+		createdAt: z.iso.datetime(),
+		updatedAt: z.iso.datetime(),
+		tags: z.array(tagSchema),
+	})
+	.openapi("Task");
+
+export const taskResponseSchema = z
+	.object({
+		data: taskSchema,
+	})
+	.openapi("TaskResponse");
+
+export const taskListResponseSchema = z
+	.object({
+		data: z.array(taskSchema),
+		pagination: z
+			.object({
+				page: z.number().int(),
+				limit: z.number().int(),
+				total: z.number().int(),
+				totalPages: z.number().int(),
+			})
+			.openapi("Pagination"),
+	})
+	.openapi("TaskListResponse");
+
+export const apiErrorSchema = z
+	.object({
+		error: z.object({
+			code: z.string(),
+			message: z.string(),
+			details: z.record(z.string(), z.array(z.string())).optional(),
+			requestId: z.string().optional(),
+		}),
+	})
+	.openapi("ApiError");
+
 export type CreateTaskInput = z.infer<typeof createTaskSchema>["body"];
 export type UpdateTaskInput = z.infer<typeof updateTaskSchema>["body"];
 export type ListTasksQuery = z.infer<typeof listTasksSchema>["query"];
