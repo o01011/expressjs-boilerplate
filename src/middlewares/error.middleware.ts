@@ -23,7 +23,7 @@ export const errorMiddleware = (
 		error: {
 			code,
 			message,
-			detals: err.details,
+			details: err.details,
 			requestId,
 		},
 	});
