@@ -1,7 +1,6 @@
 model Tag {
-  id    String  @id @default(uuid())
-  name  String  @unique @db.VarChar(50)
-  prop  String?
+  id    String @id @default(uuid())
+  name  String @unique @db.VarChar(50)
   tasks Task[]
 
   @@map("tags")
