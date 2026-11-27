@@ -1,14 +1,14 @@
 import type { NextFunction, Request, Response } from "express";
+import type { CreateTaskDto, ListTasksDto, UpdateTaskDto } from "../dtos/task.dto.ts";
 import { getValidatedData } from "../middlewares/validation.middleware.ts";
-import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from "../schemas/task.schema.ts";
 import { TaskService } from "../services/task.service.ts";
 
 export class TaskController {
 	private taskService = new TaskService();
 
-	list = async (_req: Request, res: Response, next: NextFunction) => {
+	list = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
-			const { query } = getValidatedData<{ query: ListTasksQuery }>(res);
+			const { query } = getValidatedData<{ query: ListTasksDto }>(res);
 			const result = await this.taskService.list(query);
 			res.json({
 				data: result.items,
@@ -24,7 +24,7 @@ export class TaskController {
 		}
 	};
 
-	getById = async (_req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+	getById = async (_req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { params } = getValidatedData<{ params: { id: string } }>(res);
 			const task = await this.taskService.getById(params.id);
@@ -36,9 +36,9 @@ export class TaskController {
 		}
 	};
 
-	create = async (_req: Request, res: Response, next: NextFunction) => {
+	create = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
 		try {
-			const { body } = getValidatedData<{ body: CreateTaskInput }>(res);
+			const { body } = getValidatedData<{ body: CreateTaskDto }>(res);
 			const createdTask = await this.taskService.create(body);
 			res.json({ data: createdTask });
 		} catch (e) {
@@ -46,10 +46,10 @@ export class TaskController {
 		}
 	};
 
-	update = async (_req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+	update = async (_req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { body, params } = getValidatedData<{
-				body: UpdateTaskInput;
+				body: UpdateTaskDto;
 				params: { id: string };
 			}>(res);
 			const updatedTask = await this.taskService.update(params.id, body);
@@ -59,7 +59,7 @@ export class TaskController {
 		}
 	};
 
-	delete = async (_req: Request<{ id: string }>, res: Response, next: NextFunction) => {
+	delete = async (_req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> => {
 		try {
 			const { params } = getValidatedData<{ params: { id: string } }>(res);
 			await this.taskService.delete(params.id);

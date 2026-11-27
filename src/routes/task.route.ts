@@ -1,24 +1,24 @@
 import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import { Router } from "express";
 import { TaskController } from "../controllers/task.controller.ts";
+import { createTaskDto, getTaskDto, listTasksDto, updateTaskDto } from "../dtos/task.dto.ts";
 import { validationMiddleware } from "../middlewares/validation.middleware.ts";
-import {
-	apiErrorSchema,
-	createTaskSchema,
-	getTaskSchema,
-	listTasksSchema,
-	taskListResponseSchema,
-	taskResponseSchema,
-	updateTaskSchema,
-} from "../schemas/task.schema.ts";
+import { apiErrorRdo } from "../rdos/api-error.rdo.ts";
+import { taskListResponseRdo, taskResponseRdo } from "../rdos/task.rdo.ts";
 
 const taskRouter = Router();
 const taskController = new TaskController();
 const taskOpenApiRegistry = new OpenAPIRegistry();
 
-const taskIdParams = getTaskSchema.shape.params;
+const taskIdParams = getTaskDto.shape.params;
 
-const json = (description: string, schema: typeof taskResponseSchema | typeof taskListResponseSchema | typeof apiErrorSchema) => ({
+const json = (
+	description: string,
+	schema: typeof taskResponseRdo | typeof taskListResponseRdo | typeof apiErrorRdo,
+): {
+	description: string;
+	content: { "application/json": { schema: typeof taskResponseRdo | typeof taskListResponseRdo | typeof apiErrorRdo } };
+} => ({
 	description,
 	content: {
 		"application/json": {
@@ -36,13 +36,15 @@ taskOpenApiRegistry.registerPath({
 	description:
 		"Returns a paginated list of tasks. Results can be filtered by status or priority and sorted by createdAt, title, priority, or dueDate.",
 	request: {
-		query: listTasksSchema.shape.query,
+		query: listTasksDto.shape.query,
 	},
 	responses: {
-		200: json("A page of tasks", taskListResponseSchema),
+		200: json("A page of tasks", taskListResponseRdo),
+		400: json("The query failed validation. error.code is VALIDATION_ERROR and error.details lists the fields.", apiErrorRdo),
+		500: json("Unexpected failure. error.code is INTERNAL_SERVER_ERROR.", apiErrorRdo),
 	},
 });
-taskRouter.get("/", validationMiddleware(listTasksSchema), taskController.list);
+taskRouter.get("/", validationMiddleware(listTasksDto), taskController.list);
 
 taskOpenApiRegistry.registerPath({
 	method: "get",
@@ -55,10 +57,13 @@ taskOpenApiRegistry.registerPath({
 		params: taskIdParams,
 	},
 	responses: {
-		200: json("The requested task", taskResponseSchema),
+		200: json("The requested task", taskResponseRdo),
+		400: json("The id is not a UUID. error.code is VALIDATION_ERROR.", apiErrorRdo),
+		404: json("No task exists with that id. error.code is NOT_FOUND.", apiErrorRdo),
+		500: json("Unexpected failure. error.code is INTERNAL_SERVER_ERROR.", apiErrorRdo),
 	},
 });
-taskRouter.get("/:id", validationMiddleware(getTaskSchema), taskController.getById);
+taskRouter.get("/:id", validationMiddleware(getTaskDto), taskController.getById);
 
 taskOpenApiRegistry.registerPath({
 	method: "post",
@@ -72,16 +77,18 @@ taskOpenApiRegistry.registerPath({
 			required: true,
 			content: {
 				"application/json": {
-					schema: createTaskSchema.shape.body,
+					schema: createTaskDto.shape.body,
 				},
 			},
 		},
 	},
 	responses: {
-		200: json("The created task", taskResponseSchema),
+		200: json("The created task", taskResponseRdo),
+		400: json("The body failed validation, or a task with that title already exists. error.code is VALIDATION_ERROR or CONFLICT.", apiErrorRdo),
+		500: json("Unexpected failure. error.code is INTERNAL_SERVER_ERROR.", apiErrorRdo),
 	},
 });
-taskRouter.post("/", validationMiddleware(createTaskSchema), taskController.create);
+taskRouter.post("/", validationMiddleware(createTaskDto), taskController.create);
 
 taskOpenApiRegistry.registerPath({
 	method: "put",
@@ -95,16 +102,19 @@ taskOpenApiRegistry.registerPath({
 		body: {
 			content: {
 				"application/json": {
-					schema: updateTaskSchema.shape.body,
+					schema: updateTaskDto.shape.body,
 				},
 			},
 		},
 	},
 	responses: {
-		200: json("The updated task", taskResponseSchema),
+		200: json("The updated task", taskResponseRdo),
+		400: json("The id or body failed validation, or the title is already taken. error.code is VALIDATION_ERROR or CONFLICT.", apiErrorRdo),
+		404: json("No task exists with that id. error.code is NOT_FOUND.", apiErrorRdo),
+		500: json("Unexpected failure. error.code is INTERNAL_SERVER_ERROR.", apiErrorRdo),
 	},
 });
-taskRouter.put("/:id", validationMiddleware(updateTaskSchema), taskController.update);
+taskRouter.put("/:id", validationMiddleware(updateTaskDto), taskController.update);
 
 taskOpenApiRegistry.registerPath({
 	method: "delete",
@@ -120,8 +130,11 @@ taskOpenApiRegistry.registerPath({
 		204: {
 			description: "The task was deleted",
 		},
+		400: json("The id is not a UUID. error.code is VALIDATION_ERROR.", apiErrorRdo),
+		404: json("No task exists with that id. error.code is NOT_FOUND.", apiErrorRdo),
+		500: json("Unexpected failure. error.code is INTERNAL_SERVER_ERROR.", apiErrorRdo),
 	},
 });
-taskRouter.delete("/:id", validationMiddleware(getTaskSchema), taskController.delete);
+taskRouter.delete("/:id", validationMiddleware(getTaskDto), taskController.delete);
 
 export { taskOpenApiRegistry, taskRouter };

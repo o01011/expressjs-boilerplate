@@ -13,7 +13,7 @@ server.on("error", (error) => {
 	process.exit(1);
 });
 
-const shutdown = async (signal: NodeJS.Signals) => {
+const shutdown = async (signal: NodeJS.Signals): Promise<void> => {
 	console.log(`${signal} received, shutting down`);
 	setTimeout(() => process.exit(1), 10_000).unref();
 

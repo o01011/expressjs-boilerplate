@@ -32,7 +32,9 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"nursery": {},
+			"nursery": {
+				"useExplicitReturnType": "error"
+			},
 			"preset": "recommended",
 			"style": {
 				"useImportType": "off"

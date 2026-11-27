@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 
-export const loggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const loggerMiddleware = (req: Request, res: Response, next: NextFunction): void => {
 	if (req.originalUrl.startsWith("/api/v1/docs")) {
 		next();
 		return;

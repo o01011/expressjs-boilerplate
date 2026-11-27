@@ -5,7 +5,7 @@ export const errorMiddleware = (
 	req: Request,
 	res: Response,
 	_next: NextFunction,
-) => {
+): void => {
 	const statusCode = err.statusCode ?? 500;
 	const code = err.code ?? "INTERNAL_SERVER_ERROR";
 	const message = err.message ?? "Internal server error";

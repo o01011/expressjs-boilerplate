@@ -1,3 +1,5 @@
+
+
 # expressjs-boilerplate
 
 A production-oriented **Express.js 5 + TypeScript** backend boilerplate. It unifies the conventions,
@@ -180,7 +182,8 @@ or malformed — no silent defaults for credentials.
 │   ├── controllers/            # HTTP layer: parse → call service → shape response
 │   ├── services/               # Business rules, conflict/not-found detection
 │   ├── repositories/           # Prisma queries, P2025 → null mapping
-│   ├── schemas/                # Zod request schemas + inferred types
+│   ├── dtos/                   # Zod request schemas + inferred types
+│   ├── rdos/                   # Zod response schemas
 │   ├── middlewares/
 │   │   ├── validation.middleware.ts
 │   │   ├── error.middleware.ts
@@ -401,11 +404,12 @@ database configured via `.env.test`.
 The boilerplate is intentionally repetitive so the pattern is obvious:
 
 1. `src/prisma/models/<name>.prisma` — model + enums, then `npm run db:generate && npm run db:migrate:dev`.
-2. `src/schemas/<name>.schema.ts` — Zod schemas for create/update/get/list, export inferred types.
-3. `src/repositories/<name>.repository.ts` — Prisma calls, map `P2025` to `null`.
-4. `src/services/<name>.service.ts` — business rules, throw `NotFoundError` / `ConflictError`.
-5. `src/controllers/<name>.controller.ts` — read `getValidatedData(res)`, return `{ data, pagination? }`.
-6. `src/routes/<name>.route.ts` — router + `@openapi` annotations, mount in `src/app.ts`.
+2. `src/dtos/<name>.dto.ts` — Zod schemas for create/update/get/list, export inferred types.
+3. `src/rdos/<name>.rdo.ts` — Zod schemas for the response body.
+4. `src/repositories/<name>.repository.ts` — Prisma calls, map `P2025` to `null`.
+5. `src/services/<name>.service.ts` — business rules, throw `NotFoundError` / `ConflictError`.
+6. `src/controllers/<name>.controller.ts` — read `getValidatedData(res)`, return `{ data, pagination? }`.
+7. `src/routes/<name>.route.ts` — router + OpenAPI registration, mount in `src/app.ts`.
 
 File names must stay kebab-case (ls-lint).
 
