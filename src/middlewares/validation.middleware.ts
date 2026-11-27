@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { ZodError, type ZodType } from "zod";
 
 export const validationMiddleware = (schema: ZodType) => {
-	return (req: Request, res: Response, next: NextFunction) => {
+	return (req: Request, res: Response, next: NextFunction): void => {
 		try {
 			const validated = schema.parse({
 				body: req.body,

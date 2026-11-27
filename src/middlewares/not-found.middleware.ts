@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-export const notFoundHandlerMiddleware = (req: Request, res: Response) => {
+export const notFoundHandlerMiddleware = (req: Request, res: Response): void => {
 	res.status(404).json({
 		error: {
 			code: "NOT_FOUND",

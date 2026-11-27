@@ -27,7 +27,9 @@ app.use(requestIdMiddleware);
 app.use(loggerMiddleware);
 
 const openApiRegistry = new OpenAPIRegistry([taskOpenApiRegistry]);
-const openApiGenerator = new OpenApiGeneratorV3(openApiRegistry.definitions);
+const openApiGenerator = new OpenApiGeneratorV3(openApiRegistry.definitions, {
+	sortComponents: "alphabetically",
+});
 const openApiSpec = openApiGenerator.generateDocument({
 	openapi: "3.0.0",
 	info: {

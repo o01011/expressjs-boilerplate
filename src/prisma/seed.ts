@@ -5,7 +5,7 @@ import { TaskPriority, TaskStatus } from "./generated/enums.ts";
 const TASK_COUNT = 50;
 const TAG_NAMES = ["backend", "frontend", "devops", "bug", "feature", "documentation", "testing", "design", "performance", "security"];
 
-const main = async () => {
+const main = async (): Promise<void> => {
 	await db.$transaction(async (tx) => {
 		await tx.task.deleteMany();
 		await tx.tag.deleteMany();

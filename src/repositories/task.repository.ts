@@ -1,24 +1,24 @@
 import { db } from "../db/db.ts";
+import type { CreateTaskDto, ListTasksDto, UpdateTaskDto } from "../dtos/task.dto.ts";
 import { Prisma, type Task } from "../prisma/generated/client.ts";
-import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from "../schemas/task.schema.ts";
 
 export class TaskRepository {
-	async findMany(query: ListTasksQuery): Promise<{ tasks: Task[]; total: number }> {
+	async findMany(listTasksDto: ListTasksDto): Promise<{ tasks: Task[]; total: number }> {
 		const where: Prisma.TaskWhereInput = {};
 
-		if (query.status) {
-			where.status = query.status;
+		if (listTasksDto.status) {
+			where.status = listTasksDto.status;
 		}
-		if (query.priority) {
-			where.priority = query.priority;
+		if (listTasksDto.priority) {
+			where.priority = listTasksDto.priority;
 		}
 
 		const [tasks, total] = await Promise.all([
 			db.task.findMany({
 				where,
-				orderBy: { [query.sortBy]: query.order },
-				skip: (query.page - 1) * query.limit,
-				take: query.limit,
+				orderBy: { [listTasksDto.sortBy]: listTasksDto.order },
+				skip: (listTasksDto.page - 1) * listTasksDto.limit,
+				take: listTasksDto.limit,
 				include: { tags: true },
 			}),
 			db.task.count({ where }),
@@ -34,17 +34,17 @@ export class TaskRepository {
 		});
 	}
 
-	async create(createTaskInput: CreateTaskInput): Promise<Task> {
+	async create(createTaskDto: CreateTaskDto): Promise<Task> {
 		return db.task.create({
 			data: {
-				title: createTaskInput.title,
-				description: createTaskInput.description,
-				status: createTaskInput.status ?? "TODO",
-				priority: createTaskInput.priority ?? "MEDIUM",
-				dueDate: createTaskInput.dueDate,
-				tags: createTaskInput.tags
+				title: createTaskDto.title,
+				description: createTaskDto.description,
+				status: createTaskDto.status ?? "TODO",
+				priority: createTaskDto.priority ?? "MEDIUM",
+				dueDate: createTaskDto.dueDate,
+				tags: createTaskDto.tags
 					? {
-							connectOrCreate: createTaskInput.tags.map((tag) => ({
+							connectOrCreate: createTaskDto.tags.map((tag) => ({
 								where: { name: tag },
 								create: { name: tag },
 							})),
@@ -55,17 +55,17 @@ export class TaskRepository {
 		});
 	}
 
-	async update(id: string, updateTaskInput: UpdateTaskInput): Promise<Task | null> {
+	async update(id: string, updateTaskDto: UpdateTaskDto): Promise<Task | null> {
 		try {
 			return await db.task.update({
 				where: { id },
 				data: {
-					...updateTaskInput,
-					dueDate: updateTaskInput.dueDate,
-					tags: updateTaskInput.tags
+					...updateTaskDto,
+					dueDate: updateTaskDto.dueDate,
+					tags: updateTaskDto.tags
 						? {
 								set: [],
-								connectOrCreate: updateTaskInput.tags.map((tag) => ({
+								connectOrCreate: updateTaskDto.tags.map((tag) => ({
 									where: { name: tag },
 									create: { name: tag },
 								})),
